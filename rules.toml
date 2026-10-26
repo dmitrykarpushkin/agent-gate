@@ -1,0 +1,92 @@
+# The rules agent-gate enforces: what each one says, which file enforces it, and what it does not catch.
+# tests/test_rules.py fails when a listed file is missing or a check has no rule here.
+
+[[rule]]
+id = "no-red-in-main"
+rule = "A push to a protected branch with red tests or red checks is refused."
+enforced_by = ["hooks/pre-push", "agent_gate/prepush.py"]
+limits = "Runs on the machine that pushes: --no-verify, a clone without the install, or a changed core.hooksPath skips it. Only the tip's tests run. Server-side branch protection is the rule a client cannot skip."
+
+[[rule]]
+id = "rules-from-base"
+rule = "A push is judged by the rules of the commit it builds on, so it cannot relax its own rules."
+enforced_by = ["agent_gate/config.py", "agent_gate/run_all.py", "agent_gate/prepush.py"]
+limits = "A base without agent-gate.toml falls back to the pushed file. The checks' code lives outside the guarded repo; whoever can edit the agent-gate clone can change them."
+
+[[rule]]
+id = "no-secrets-in-repo"
+rule = "Added lines must not match known credential shapes; added files must not be key files, .env files or blobs over the size limit, unless the allowlist of the base commit names them with a reason."
+enforced_by = ["agent_gate/checks/check_secrets.py"]
+limits = "Pattern based: a credential of an unknown shape, an encoded one or one split across lines passes."
+
+[[rule]]
+id = "commit-identity"
+rule = "Authors and committers come from the allowed list; messages and names carry no banned trailer or word."
+enforced_by = ["agent_gate/checks/check_commits.py", "hooks/commit-msg", "hooks/pre-commit"]
+limits = "Email addresses are self-declared by whoever commits; the signature rule is what ties a commit to a key."
+
+[[rule]]
+id = "commit-signature"
+rule = "Commits authored by the listed people carry a signature."
+enforced_by = ["agent_gate/checks/check_signatures.py"]
+limits = "Presence of a gpgsig header only; validity needs the signers' keys and is not checked."
+
+[[rule]]
+id = "one-language-repo"
+rule = "Added lines, file names and commit messages outside the exempt paths contain no text in the forbidden script."
+enforced_by = ["agent_gate/checks/check_language.py", "agent_gate/checks/check_commits.py"]
+limits = "A script check, not a language detector: transliterated text passes."
+
+[[rule]]
+id = "supply-chain-pins"
+rule = "No floating package launches (npx -y, uvx, bunx, pipx run without an exact version), no npm install that runs install scripts, no package.json with dependencies but no lockfile."
+enforced_by = ["agent_gate/checks/check_supply_chain.py"]
+limits = "Version ranges inside lockfiles and other package managers are not judged."
+
+[[rule]]
+id = "pinned-model-lifecycle"
+rule = "A pinned model id is not deprecated and within the retirement window."
+enforced_by = ["agent_gate/checks/check_pinned_models.py", "agent_gate/model_lifecycle.json"]
+limits = "Offline list refreshed by hand: only the families listed are judged."
+
+[[rule]]
+id = "hidden-text-in-agent-input"
+rule = "Files agents read as input carry no invisible or bidi characters, HTML comments or coercive phrases aimed at an agent."
+enforced_by = ["agent_gate/checks/check_hidden_text.py"]
+limits = "Catches the cheap cases; a paraphrased instruction in plain text passes."
+
+[[rule]]
+id = "telemetry-content-off"
+rule = "No tracked settings, unit, script or env file switches on the telemetry flags that export prompts, tool content or raw API bodies."
+enforced_by = ["agent_gate/checks/check_telemetry_flags.py"]
+limits = "Only the listed flag names; settings outside the repo are not seen."
+
+[[rule]]
+id = "core-sync"
+rule = "Every instruction file agents read carries the shared core text unchanged."
+enforced_by = ["agent_gate/checks/check_core_sync.py"]
+limits = "Files outside the repo (user-level settings, other repos) are not read."
+
+[[rule]]
+id = "independent-verifier"
+rule = "Whoever writes a change does not verify it: a verified change record names a verifier different from the author, and evidence with detail."
+enforced_by = ["agent_gate/checks/check_changes.py"]
+limits = "The record is self-declared: the check proves the fields exist and differ, not that a second agent really ran the checks."
+
+[[rule]]
+id = "explicit-yes"
+rule = "Changes of irreversible kinds (service, money, message, production, deletion, force push) and spend above the limit need a person's yes, cited by message id and excerpt, before status applied."
+enforced_by = ["agent_gate/checks/check_changes.py"]
+limits = "Only the shape of the citation is checked, not that the message exists or says yes."
+
+[[rule]]
+id = "required-text"
+rule = "Documents that agents and reviewers depend on keep their load-bearing phrases."
+enforced_by = ["agent_gate/checks/check_required_text.py"]
+limits = "Presence only: whether the text is followed is not checked."
+
+[[rule]]
+id = "intake-gate"
+rule = "Feedback and feature requests become requirements, research and options first; nothing in the repo changes before the person says go. A page change is not done before a rendered picture was looked at."
+enforced_by = ["agent_gate/gate.py", "agent_gate/checks/check_gate_wiring.py"]
+limits = "The go is read from text and a citation can be forged; Bash write detection is an allowlist plus patterns and over-blocks; the gate does nothing without the kind marker or when the session does not load the repo settings."

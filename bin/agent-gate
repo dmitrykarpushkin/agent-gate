@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+"""Launcher. Run as `python3 -I bin/agent-gate <command>`: isolated mode keeps the judged repository's files and the
+environment off the module path, and this package is appended after the standard library, so nothing can shadow it."""
+import pathlib, sys
+
+sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
+from agent_gate.__main__ import main  # noqa: E402
+
+sys.exit(main(sys.argv[1:]))

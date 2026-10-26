@@ -1,0 +1,64 @@
+# agent-gate.toml: copy to the root of the repository you guard and edit.
+# At push time this file is read from the BASE commit: a change to it takes effect for the pushes after the one that
+# brings it in. A table that is absent switches its check off (secrets, supply_chain, pinned_models and telemetry_flags
+# run with built-in defaults).
+
+[checks]
+enabled = ["secrets", "commits", "signatures", "language", "supply_chain", "pinned_models", "hidden_text",
+           "telemetry_flags", "core_sync", "changes", "required_text", "gate_wiring"]
+
+[push]
+branches = ["main"]                                    # pushes to these branches are judged
+test_command = "python3 -m unittest discover -s tests"  # runs in a clean checkout of the pushed commit
+
+[secrets]
+allow_file = ".agent-gate/secret-paths-allow.txt"      # lines `glob  # reason`, read from the base commit
+size_limit_mb = 5
+
+[commits]
+allowed_emails = ["you@example.invalid", "repo-bot@example.invalid"]
+allow_web_committer = true
+banned_trailers = ["co-authored-by"]
+banned_words = ["generated with"]
+
+[signatures]
+signed_emails = ["you@example.invalid"]       # the bot identity above is not required to sign
+
+[language]
+forbid = "cyrillic"                                    # or "greek", "cjk", or a list of ["0x400", "0x52f"] ranges
+exempt_paths = ["docs/translations/"]
+old_lines_only = []
+
+[supply_chain]
+skip = ["tests/"]
+# install_scripts_ok = { "scripts/build.sh" = "esbuild needs its install script" }
+
+[pinned_models]
+window_days = 60
+skip = ["tests/"]
+
+[hidden_text]
+paths = ["tasks/", "inbox/"]                           # files agents read as input
+
+[telemetry_flags]
+skip = ["tests/"]
+
+[core_sync]
+source = "docs/CORE.md"
+targets = ["CLAUDE.md", "AGENTS.md"]
+
+[changes]
+dir = "changes"
+spend_limit_usd = 10
+
+[required_text]
+"docs/REVIEW.md" = ["## Report format", "path:line"]
+
+[gate_wiring]
+settings = ".claude/settings.json"
+command_contains = "agent-gate"
+
+[gate]
+scratch = ["/tmp"]
+require_citation = false                               # true when an orchestrator relays the person's messages
+page_patterns = '\.(html|css)$'

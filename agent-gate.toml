@@ -1,0 +1,31 @@
+# The rules agent-gate applies to its own repository (install with: sh hooks/install.sh).
+# The example for other repositories, with every table, is examples/agent-gate.toml.
+
+[push]
+branches = ["main"]
+test_command = "python3 -m unittest discover -s tests"
+
+[secrets]
+skip = ["agent_gate/checks/check_secrets.py"]   # the credential patterns themselves
+
+[commits]
+banned_trailers = ["co-authored-by"]
+
+[language]
+forbid = "cyrillic"
+
+[supply_chain]
+skip = ["tests/", "agent_gate/checks/check_supply_chain.py", "rules.toml"]   # fixtures, the patterns, prose
+
+[pinned_models]
+skip = ["tests/", "agent_gate/model_lifecycle.json"]   # fixtures, the lifecycle list itself
+
+[telemetry_flags]
+skip = ["tests/", "agent_gate/checks/check_telemetry_flags.py"]
+
+[required_text]
+"README.md" = ["## Limitations"]
+"rules.toml" = ["no-red-in-main", "rules-from-base"]
+
+[gate_wiring]
+settings = "examples/claude-settings.json"

@@ -1,0 +1,18 @@
+{
+  "checked": "2026-10-19",
+  "source": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+  "models": {
+    "claude-sonnet-4-5": {
+      "status": "deprecated",
+      "retires": "2026-11-30"
+    },
+    "claude-haiku-4-5": {
+      "status": "active",
+      "retires": null
+    },
+    "claude-3-5-haiku": {
+      "status": "retired",
+      "retires": "2026-02-19"
+    }
+  }
+}
