@@ -1,0 +1,23 @@
+<!doctype html>
+<!-- Source of docs/social-preview.png (1280x640). Render: open in a 1280x640 browser window and take a screenshot. -->
+<html><head><meta charset="utf-8"><style>
+  html,body{margin:0;width:1280px;height:640px;background:#0d1117;color:#e6edf3;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;overflow:hidden}
+  .wrap{padding:72px 80px;box-sizing:border-box;height:100%;display:flex;flex-direction:column}
+  .bar{width:96px;height:12px;background:#ff7b72;border-radius:2px;margin-bottom:36px}
+  h1{font-size:96px;margin:0;letter-spacing:-2px;font-weight:700}
+  p{font-size:36px;line-height:1.3;margin:20px 0 0;color:#c9d1d9;max-width:1060px}
+  .term{margin-top:auto;font-family:ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;font-size:24px;
+    background:#161b22;border:1px solid #30363d;border-radius:10px;padding:22px 28px;line-height:1.5}
+  .c{color:#79c0ff}.r{color:#ff7b72}.d{color:#8b949e}
+  .foot{position:absolute;right:80px;top:84px;font-size:22px;color:#8b949e}
+</style></head><body><div class="wrap">
+  <div class="foot">git hooks + Claude Code hook · Python stdlib</div>
+  <div class="bar"></div>
+  <h1>stopline</h1>
+  <p>Git hooks that refuse what a coding agent claims but cannot show, judged by rules it cannot edit.</p>
+  <div class="term"><span class="c">$ git push origin main</span><br>
+  <span class="d">stopline pre-push: tests green · 12 checks</span><br>
+  <span class="r">commits: author coding-agent@example.invalid is not an allowed identity</span><br>
+  <span class="r">stopline pre-push: checks are red, push blocked</span></div>
+</div></body></html>

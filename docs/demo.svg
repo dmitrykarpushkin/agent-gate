@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="784" height="659" viewBox="0 0 784 659" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">
+<rect width="784" height="659" rx="10" fill="#0d1117"/>
+<path d="M0 10 a10 10 0 0 1 10 -10 h764 a10 10 0 0 1 10 10 v24 h-784 z" fill="#161b22"/>
+<circle cx="20" cy="17.0" r="6" fill="#ff5f56"/>
+<circle cx="40" cy="17.0" r="6" fill="#ffbd2e"/>
+<circle cx="60" cy="17.0" r="6" fill="#27c93f"/>
+<text x="392.0" y="21.0" fill="#6e7681" text-anchor="middle">sh examples/demo.sh  (steps 2,3,4)</text>
+<text x="18" y="66" fill="#e3b341" font-weight="bold" xml:space="preserve">== 2. the agent commits a key (a fake AWS key id, built at runtime)</text>
+<text x="18" y="85" fill="#c9d1d9" font-weight="normal" xml:space="preserve"></text>
+<text x="18" y="104" fill="#79c0ff" font-weight="normal" xml:space="preserve">$ git add settings.py &amp;&amp; git commit -qm &quot;add settings&quot;</text>
+<text x="18" y="123" fill="#c9d1d9" font-weight="normal" xml:space="preserve">settings.py: possible aws key id</text>
+<text x="18" y="142" fill="#ff7b72" font-weight="normal" xml:space="preserve">stopline pre-commit: commit blocked</text>
+<text x="18" y="161" fill="#ff7b72" font-weight="bold" xml:space="preserve">(exit 1)</text>
+<text x="18" y="180" fill="#c9d1d9" font-weight="normal" xml:space="preserve"></text>
+<text x="18" y="199" fill="#e3b341" font-weight="bold" xml:space="preserve">== 3. the agent commits under its own identity</text>
+<text x="18" y="218" fill="#c9d1d9" font-weight="normal" xml:space="preserve"></text>
+<text x="18" y="237" fill="#79c0ff" font-weight="normal" xml:space="preserve">$ git add hello.py &amp;&amp; git -c user.email=coding-agent@example.invalid commit -qm &quot;add hello&quot;</text>
+<text x="18" y="256" fill="#c9d1d9" font-weight="normal" xml:space="preserve">index: author coding-agent@example.invalid is not an allowed identity</text>
+<text x="18" y="275" fill="#c9d1d9" font-weight="normal" xml:space="preserve">index: committer coding-agent@example.invalid is not an allowed identity</text>
+<text x="18" y="294" fill="#ff7b72" font-weight="normal" xml:space="preserve">stopline pre-commit: commit blocked</text>
+<text x="18" y="313" fill="#ff7b72" font-weight="bold" xml:space="preserve">(exit 1)</text>
+<text x="18" y="332" fill="#c9d1d9" font-weight="normal" xml:space="preserve"></text>
+<text x="18" y="351" fill="#e3b341" font-weight="bold" xml:space="preserve">== 4. the agent skips the commit hooks (--no-verify) and pushes: a foreign author and an unsign…</text>
+<text x="18" y="370" fill="#c9d1d9" font-weight="normal" xml:space="preserve"></text>
+<text x="18" y="389" fill="#79c0ff" font-weight="normal" xml:space="preserve">$ git -c user.email=coding-agent@example.invalid commit -q --no-verify -m &quot;add hello&quot; &amp;&amp; git -c…</text>
+<text x="18" y="408" fill="#c9d1d9" font-weight="normal" xml:space="preserve">stopline pre-push: 72b09a0f04d6 -&gt; main, judged against 82bae4a24c9b</text>
+<text x="18" y="427" fill="#c9d1d9" font-weight="normal" xml:space="preserve">stopline pre-push: tests green (python3 -m unittest discover -s tests)</text>
+<text x="18" y="446" fill="#c9d1d9" font-weight="normal" xml:space="preserve">stopline: 12 checks on 82bae4a24c9b..HEAD, rules from agent-gate.toml at 82bae4a24c9b</text>
+<text x="18" y="465" fill="#c9d1d9" font-weight="normal" xml:space="preserve">secrets: ok</text>
+<text x="18" y="484" fill="#ff7b72" font-weight="normal" xml:space="preserve">commits: 2 problem(s)</text>
+<text x="18" y="503" fill="#c9d1d9" font-weight="normal" xml:space="preserve">  - 9fc73dc: author coding-agent@example.invalid is not an allowed identity</text>
+<text x="18" y="522" fill="#c9d1d9" font-weight="normal" xml:space="preserve">  - 9fc73dc: committer coding-agent@example.invalid is not an allowed identity</text>
+<text x="18" y="541" fill="#ff7b72" font-weight="normal" xml:space="preserve">signatures: 1 problem(s)</text>
+<text x="18" y="560" fill="#c9d1d9" font-weight="normal" xml:space="preserve">  - 72b09a0: commit by owner@example.invalid without a signature</text>
+<text x="18" y="579" fill="#6e7681" font-weight="normal" xml:space="preserve"># ... 9 more checks: ok</text>
+<text x="18" y="598" fill="#ff7b72" font-weight="normal" xml:space="preserve">stopline pre-push: checks are red for 72b09a0f04d6, push blocked</text>
+<text x="18" y="617" fill="#ff7b72" font-weight="normal" xml:space="preserve">error: failed to push some refs to &#x27;$DEMO/remote.git&#x27;</text>
+<text x="18" y="636" fill="#ff7b72" font-weight="bold" xml:space="preserve">(exit 1)</text>
+</svg>
