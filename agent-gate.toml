@@ -13,6 +13,7 @@ banned_trailers = ["co-authored-by"]
 
 [language]
 forbid = "cyrillic"
+exempt_paths = ["README.ru.md", "README.md"]   # the Russian README, and the language switch link on line 3 of README.md
 
 [supply_chain]
 skip = ["tests/", "agent_gate/checks/check_supply_chain.py", "rules.toml"]   # fixtures, the patterns, prose
