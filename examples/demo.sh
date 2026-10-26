@@ -1,7 +1,7 @@
 #!/bin/sh
-# A reproducible demo: a scratch repository guarded by agent-gate, and an "agent" that tries to commit a key, commit under
+# A reproducible demo: a scratch repository guarded by stopline, and an "agent" that tries to commit a key, commit under
 # a foreign identity, push unsigned work, and edit before the person said go. Usage: sh examples/demo.sh
-# Everything happens in a temporary directory (shown as $DEMO); the agent-gate clone is shown as <agent-gate>.
+# Everything happens in a temporary directory (shown as $DEMO); the stopline clone is shown as <stopline>.
 # Needs git and Python 3.11+; gpg is used for the last step (a throwaway key in the temporary directory) when present.
 set -u
 # the demo ignores your own git settings (signing programs, hooks paths) so it behaves the same everywhere
@@ -14,10 +14,10 @@ BOT=repo-bot@example.invalid
 
 # run CMD...: print the command, run it in the demo repo, print its output and exit status
 run() {
-    printf '\n$ %s\n' "$*" | sed -e "s#$DEMO#\$DEMO#g" -e "s#$AG#<agent-gate>#g"
+    printf '\n$ %s\n' "$*" | sed -e "s#$DEMO#\$DEMO#g" -e "s#$AG#<stopline>#g"
     out=$(cd "$DEMO/repo" && sh -c "$*" 2>&1)
     rc=$?
-    [ -n "$out" ] && printf '%s\n' "$out" | sed -e "s#$DEMO#\$DEMO#g" -e "s#$AG#<agent-gate>#g"
+    [ -n "$out" ] && printf '%s\n' "$out" | sed -e "s#$DEMO#\$DEMO#g" -e "s#$AG#<stopline>#g"
     echo "(exit $rc)"
 }
 
@@ -86,8 +86,8 @@ fi
 echo
 echo "== 6. the gate (Claude Code hooks): a feature request closes the repo for edits until the person says go"
 gate() {
-    printf "\n\$ echo '%s' | agent-gate gate %s\n" "$2" "$1"
-    (cd "$DEMO/repo" && printf '%s' "$2" | CLAUDE_PROJECT_DIR="$DEMO/repo" python3 -I "$AG/bin/agent-gate" gate "$1")
+    printf "\n\$ echo '%s' | stopline gate %s\n" "$2" "$1"
+    (cd "$DEMO/repo" && printf '%s' "$2" | CLAUDE_PROJECT_DIR="$DEMO/repo" python3 -I "$AG/bin/stopline" gate "$1")
     echo "(exit $?)"
 }
 echo "# Here the person types into the terminal, so the prompt is their own words. Behind an orchestrator that relays"

@@ -1,13 +1,13 @@
-"""Command line of agent-gate. Run it through the launcher, which puts this package on the path in isolated mode:
+"""Command line of stopline. Run it through the launcher, which puts this package on the path in isolated mode:
 
-  python3 -I path/to/agent-gate/bin/agent-gate run [BASE]       every enabled check on BASE..HEAD (default HEAD~1)
-  python3 -I path/to/agent-gate/bin/agent-gate staged           the pre-commit checks on the index
-  python3 -I path/to/agent-gate/bin/agent-gate msg FILE         the commit-msg checks on a message file
-  python3 -I path/to/agent-gate/bin/agent-gate tree [PATH]      secret scan of every tracked file (not a diff)
-  python3 -I path/to/agent-gate/bin/agent-gate pre-push REMOTE  the pre-push hook (reads git's ref lines on stdin)
-  python3 -I path/to/agent-gate/bin/agent-gate gate MODE        the Claude Code agent gate (prompt, pretool, log, stop)
+  python3 -I path/to/stopline/bin/stopline run [BASE]       every enabled check on BASE..HEAD (default HEAD~1)
+  python3 -I path/to/stopline/bin/stopline staged           the pre-commit checks on the index
+  python3 -I path/to/stopline/bin/stopline msg FILE         the commit-msg checks on a message file
+  python3 -I path/to/stopline/bin/stopline tree [PATH]      secret scan of every tracked file (not a diff)
+  python3 -I path/to/stopline/bin/stopline pre-push REMOTE  the pre-push hook (reads git's ref lines on stdin)
+  python3 -I path/to/stopline/bin/stopline gate MODE        the Claude Code agent gate (prompt, pretool, log, stop)
 
-With agent-gate on PYTHONPATH, `python3 -m agent_gate ...` is the same. All commands work on the git work tree of the
+With the stopline clone on PYTHONPATH, `python3 -m agent_gate ...` is the same. All commands work on the git work tree of the
 current directory.
 """
 import re, subprocess, sys
@@ -43,7 +43,7 @@ def staged():
     for p in found:
         print(p)
     if found:
-        print("agent-gate pre-commit: commit blocked")
+        print("stopline pre-commit: commit blocked")
     return 1 if found else 0
 
 
@@ -65,7 +65,7 @@ def msg(path):
         return 0
     found = [p.split(": ", 1)[1] for p in check_commits.Rules(cfg).message_problems("message", message_text(path))]
     for p in found:
-        print("agent-gate commit-msg: " + p, file=sys.stderr)
+        print("stopline commit-msg: " + p, file=sys.stderr)
     return 1 if found else 0
 
 
@@ -93,7 +93,7 @@ def main(argv):
         if cmd == "gate":
             return gate.main(rest)
     except config.ConfigError as e:
-        print(f"agent-gate: {e}", file=sys.stderr)
+        print(f"stopline: {e}", file=sys.stderr)
         return 1
     print(USAGE, file=sys.stderr)
     return 2

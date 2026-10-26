@@ -1,4 +1,4 @@
-# agent-gate.toml: copy to the root of the repository you guard and edit.
+# agent-gate.toml (the config file keeps the project's first name): copy to the root of the repository you guard and edit.
 # At push time this file is read from the BASE commit: a change to it takes effect for the pushes after the one that
 # brings it in. A table that is absent switches its check off (secrets, supply_chain, pinned_models and telemetry_flags
 # run with built-in defaults).
@@ -56,7 +56,7 @@ spend_limit_usd = 10
 
 [gate_wiring]
 settings = ".claude/settings.json"
-command_contains = "agent-gate"
+command_contains = "stopline"
 
 [gate]
 scratch = ["/tmp"]

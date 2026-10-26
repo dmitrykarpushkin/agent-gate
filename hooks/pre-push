@@ -1,4 +1,4 @@
 #!/bin/sh
-# agent-gate: refuses a push to a protected branch when the tests or the checks are red for the pushed commit.
+# stopline: refuses a push to a protected branch when the tests or the checks are red for the pushed commit.
 # Bypassable with --no-verify; server-side branch protection is the only rule a client cannot skip.
-exec python3 -I "$(dirname "$0")/../bin/agent-gate" pre-push "$@"
+exec python3 -I "$(dirname "$0")/../bin/stopline" pre-push "$@"

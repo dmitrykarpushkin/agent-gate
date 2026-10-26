@@ -1,4 +1,4 @@
-# The rules agent-gate enforces: what each one says, which file enforces it, and what it does not catch.
+# The rules stopline enforces: what each one says, which file enforces it, and what it does not catch.
 # tests/test_rules.py fails when a listed file is missing or a check has no rule here.
 
 [[rule]]
@@ -11,7 +11,7 @@ limits = "Runs on the machine that pushes: --no-verify, a clone without the inst
 id = "rules-from-base"
 rule = "A push is judged by the rules of the commit it builds on, so it cannot relax its own rules."
 enforced_by = ["agent_gate/config.py", "agent_gate/run_all.py", "agent_gate/prepush.py"]
-limits = "A base without agent-gate.toml falls back to the pushed file. The checks' code lives outside the guarded repo; whoever can edit the agent-gate clone can change them."
+limits = "A base without agent-gate.toml falls back to the pushed file. The checks' code lives outside the guarded repo; whoever can edit the stopline clone can change them."
 
 [[rule]]
 id = "no-secrets-in-repo"

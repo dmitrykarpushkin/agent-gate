@@ -294,7 +294,7 @@ class FailClosed(unittest.TestCase):
             sh(repo, "git", "config", "user.name", "t")
             sh(repo, "git", "config", "user.email", OWNER)
             self.assertEqual(sh(repo, "sh", str(gate / "hooks" / "install.sh")).returncode, 0)
-            (gate / "bin" / "agent-gate").unlink()
+            (gate / "bin" / "stopline").unlink()
             (repo / "a.txt").write_text("a\n")
             sh(repo, "git", "add", "-A")
             r = sh(repo, "git", "commit", "-qm", "m")

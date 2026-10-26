@@ -1,4 +1,4 @@
 #!/bin/sh
-# agent-gate: refuses a commit message with a banned trailer or word, or text in a forbidden script, at commit time
+# stopline: refuses a commit message with a banned trailer or word, or text in a forbidden script, at commit time
 # (the same rule the push check applies, where it costs a full test run to learn about). Bypassable with --no-verify.
-exec python3 -I "$(dirname "$0")/../bin/agent-gate" msg "$1"
+exec python3 -I "$(dirname "$0")/../bin/stopline" msg "$1"

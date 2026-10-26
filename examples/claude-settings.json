@@ -1,8 +1,8 @@
 {
   "hooks": {
-    "UserPromptSubmit": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/agent-gate/bin/agent-gate gate prompt"}]}],
-    "PreToolUse": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/agent-gate/bin/agent-gate gate pretool"}]}],
-    "PostToolUse": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/agent-gate/bin/agent-gate gate log"}]}],
-    "Stop": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/agent-gate/bin/agent-gate gate stop"}]}]
+    "UserPromptSubmit": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/stopline/bin/stopline gate prompt"}]}],
+    "PreToolUse": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/stopline/bin/stopline gate pretool"}]}],
+    "PostToolUse": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/stopline/bin/stopline gate log"}]}],
+    "Stop": [{"hooks": [{"type": "command", "command": "python3 -I /path/to/stopline/bin/stopline gate stop"}]}]
   }
 }

@@ -37,18 +37,18 @@ def run(base=None, root=None, out=None, err=None):
     root = common.set_root(root or toplevel())
     base = base or "HEAD~1"
     if not usable_base(base, root):
-        print(f"agent-gate: base {base!r} is not usable, falling back to HEAD~1", file=err)
+        print(f"stopline: base {base!r} is not usable, falling back to HEAD~1", file=err)
         base = "HEAD~1"
         if not usable_base(base, root):
-            print("agent-gate: HEAD has no parent; pass a base commit", file=err)
+            print("stopline: HEAD has no parent; pass a base commit", file=err)
             return 1
     try:
         cfg, source = config.load(root, base)
         names = config.enabled(cfg)
     except config.ConfigError as e:
-        print(f"agent-gate: {e}", file=out)
+        print(f"stopline: {e}", file=out)
         return 1
-    print(f"agent-gate: {len(names)} checks on {base[:12]}..HEAD, rules from {source}", file=out)
+    print(f"stopline: {len(names)} checks on {base[:12]}..HEAD, rules from {source}", file=out)
     bad, lines = run_checks([(n, ALL[n]) for n in names], base, cfg)
     print("\n".join(lines), file=out)
     return 1 if bad else 0

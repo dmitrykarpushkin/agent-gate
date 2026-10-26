@@ -1,5 +1,5 @@
 #!/bin/sh
-# agent-gate: refuses a commit whose staged changes add something that looks like a credential, a key file, a big blob,
+# stopline: refuses a commit whose staged changes add something that looks like a credential, a key file, a big blob,
 # text in a forbidden script, or that is made under an identity that is not allowed. Bypassable with --no-verify.
 # A missing launcher makes python3 fail, so the commit is refused (fail closed).
-exec python3 -I "$(dirname "$0")/../bin/agent-gate" staged
+exec python3 -I "$(dirname "$0")/../bin/stopline" staged

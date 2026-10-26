@@ -22,7 +22,7 @@ import gitsafe  # noqa: E402,F401
 for _var in ("GIT_AUTHOR_NAME", "GIT_AUTHOR_EMAIL", "GIT_AUTHOR_DATE", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL", "GIT_COMMITTER_DATE"):
     os.environ.pop(_var, None)
 
-LAUNCHER = ROOT / "bin" / "agent-gate"
+LAUNCHER = ROOT / "bin" / "stopline"
 # RFC 2606 reserved domain: these addresses can never belong to anyone
 OWNER = "owner@example.invalid"
 BOT = "bot@example.invalid"

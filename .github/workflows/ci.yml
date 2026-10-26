@@ -1,7 +1,7 @@
 # Server-side net: the same tests and checks as the pre-push hook, run by GitHub on every push and pull request,
 # so a push made with --no-verify (or from a clone without the hooks) is still judged.
 # Pair it with a branch protection rule that requires this job before merging into main.
-name: agent-gate
+name: CI
 
 on:
   push:
@@ -40,6 +40,6 @@ jobs:
             fi
           fi
           echo "base: $base"
-          python3 -I bin/agent-gate run "$base"
+          python3 -I bin/stopline run "$base"
       - name: Secret scan of every tracked file (covers the root commit, which has no base)
-        run: python3 -I bin/agent-gate tree
+        run: python3 -I bin/stopline tree

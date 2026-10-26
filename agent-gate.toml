@@ -1,4 +1,4 @@
-# The rules agent-gate applies to its own repository (install with: sh hooks/install.sh).
+# The rules stopline applies to its own repository (install with: sh hooks/install.sh).
 # The example for other repositories, with every table, is examples/agent-gate.toml.
 
 [push]

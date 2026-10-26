@@ -68,28 +68,28 @@ def judge(root, remote, line, tmp, out, err):
     try:
         cfg = rules_for(root, base, sha)
     except config.ConfigError as e:
-        print(f"agent-gate pre-push: {e}; push blocked", file=err)
+        print(f"stopline pre-push: {e}; push blocked", file=err)
         return 1
     branches = config.get(cfg, "push.branches", ["main"])
     if branch not in branches:
         return 0
     wt = os.path.join(tmp, "wt")
     if git("worktree", "add", "--detach", "-q", wt, sha, cwd=root).returncode != 0:
-        print(f"agent-gate pre-push: cannot check out {sha}; push blocked", file=err)
+        print(f"stopline pre-push: cannot check out {sha}; push blocked", file=err)
         return 1
     try:
-        print(f"agent-gate pre-push: {sha[:12]} -> {branch}, judged against {base[:12]}", file=out)
+        print(f"stopline pre-push: {sha[:12]} -> {branch}, judged against {base[:12]}", file=out)
         test = config.get(cfg, "push.test_command")
         if test:
             r = subprocess.run(test if isinstance(test, str) else shlex.join(test), shell=True, cwd=wt, capture_output=True, text=True)
             if r.returncode != 0:
                 tail = (r.stdout + r.stderr).splitlines()[-40:]
                 print("\n".join(tail), file=err)
-                print(f"agent-gate pre-push: tests are red for {sha[:12]}, push blocked", file=err)
+                print(f"stopline pre-push: tests are red for {sha[:12]}, push blocked", file=err)
                 return 1
-            print(f"agent-gate pre-push: tests green ({test})", file=out)
+            print(f"stopline pre-push: tests green ({test})", file=out)
         if run_all.run(base, root=wt, out=out, err=err) != 0:
-            print(f"agent-gate pre-push: checks are red for {sha[:12]}, push blocked", file=err)
+            print(f"stopline pre-push: checks are red for {sha[:12]}, push blocked", file=err)
             return 1
         return 0
     finally:
@@ -107,9 +107,9 @@ def main(argv, stdin=None, out=None, err=None):
     root = run_all.toplevel()
     if git("rev-parse", "--is-shallow-repository", cwd=root).stdout.strip() == "true":
         # a shallow clone lacks the base commits the checks compare against; get the full history first
-        print("agent-gate pre-push: shallow clone, fetching the full history first", file=err)
+        print("stopline pre-push: shallow clone, fetching the full history first", file=err)
         if git("fetch", "-q", "--unshallow", remote, cwd=root).returncode != 0:
-            print(f"agent-gate pre-push: cannot unshallow from {remote}, push blocked", file=err)
+            print(f"stopline pre-push: cannot unshallow from {remote}, push blocked", file=err)
             return 1
     status = 0
     for line in stdin.read().splitlines():
